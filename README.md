@@ -1,9 +1,11 @@
-# MIGRATE DATA INTO RDS DATABASE USING FLYWAY
+# MIGRATE DATA INTO AWS RDS DATABASE USING FLYWAY
 
-## **FIRST STEP**
+## In this project, I migrated my data from my local machine into AWS RDS database. I am willing to guide you in all the steps to get it done yourself
+
+### **FIRST STEP**
 
 
-### Create a 3 Tier AWS VPC
+#### Create a 3 Tier AWS VPC
 
 
 a. 1st tier: 1st tier which is in public subnet, we will have bastion, ELB and NAT gateay
