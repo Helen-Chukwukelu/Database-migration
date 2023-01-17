@@ -1,9 +1,9 @@
 # MIGRATE DATA INTO RDS DATABASE USING FLYWAY
 
-**FIRST STEP**
+## **FIRST STEP**
 
 
-# Create a 3 Tier AWS VPC
+### Create a 3 Tier AWS VPC
 
 
 a. 1st tier: 1st tier which is in public subnet, we will have bastion, ELB and NAT gateay
