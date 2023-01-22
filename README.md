@@ -10,13 +10,13 @@
 #### Create a 3 Tier AWS VPC
 
 
-- 1st tier: 1st tier which is in public subnet, we will have bastion, ELB and NAT Gateway
+- 1st Tier: 1st tier which is in public subnet, we will have bastion, ELB and NAT Gateway
 
 
 - 2nd Tier we will have private subnet that will hold our websites is EC2 instances
 
 
-- 3rd tier - Another private subnets that will have our database and it be in different AZs for high availability and fault tolerance.
+- 3rd Tier - Another private subnets that will have our database and it be in different AZs for high availability and fault tolerance.
 
 
 And then we will create internet gateway and route gateway to allow some resources in our VPC have access to the internet
