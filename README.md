@@ -1,6 +1,6 @@
 # MIGRATE DATA INTO AWS RDS DATABASE USING FLYWAY
 
-## In this project, I migrated my data from my local machine into AWS RDS database. I am willing to guide you in all the steps to get it done yourself
+## In this project, I migrated our data from my local machine into AWS RDS database. I am willing to guide you in all the steps to get it done yourself
 
 ### **FIRST STEP**
 
@@ -8,22 +8,20 @@
 #### Create a 3 Tier AWS VPC
 
 
-a. 1st tier: 1st tier which is in public subnet, we will have bastion, ELB and NAT gateay
+a. 1st tier: 1st tier which is in public subnet, we will have bastion, ELB and NAT Gateway
 
 
 b. 2nd Tier we will have private subnet that will hold our websites is EC2 instances
 
 
-c. 3rd tier - Another private subnets that will have our database
-
-
-and it be in diff AZs for high availability and fault tolerance
+c. 3rd tier - Another private subnets that will have our database and it be in different AZs for high availability and fault tolerance.
 
 
 And then we will create internet gateway and route gateway to allow some resources in our VPC have access to the internet
 
 
-**LETS CREATE!**
+**SOLUTIONS**
+
 
 Create a VPC with 10.0.0.0/16b CIDR
 
@@ -57,25 +55,31 @@ Good!it will show attached
 
 **Create 2 public subnet in 2 AZs**
 
-From subnet section, click on create subenet
-Select the VPC created, give a name as public-subnet-AZ1
-Under Availability zone, select us-east-1a AZ.
+- From subnet section, click on create subenet
 
-Give the CIDR as 10.0.0.0/24
-Create subnet
+- Select the VPC created, give a name as public-subnet-AZ1
 
-Create another public subnet
+- Under Availability zone, select us-east-1a AZ.
 
-Same method but select another AZ ..east-us-1a with CIDR as 10.0.1.0/24
+- Give the CIDR as 10.0.0.0/24
 
-Create
+- Create subnet
+
+
+
+**Create another public subnet**
+
+
+- Use same method but select another AZ ..east-us-1a with CIDR as 10.0.1.0/24
+
+- Create
 
 ....................................................................................
 
 **Enable auto IP assigned settings for the public subnets**
 
 
-- So anytime you launch ECS instance in the subnet, IP address will be assigned automatically.
+You are enabling this so that anytime you launch ECS instance in the subnet, IP address will be assigned automatically.
 
 
 - Select subnet in AZ1 and from action button, click on edit subnet Ssetting.
@@ -87,8 +91,7 @@ Create
 
 **Create a public Route Table**
 
-Before you start creating, you should see a route table which has been created already. It was created automatically when you created your VPC and it is called main Route table
-it is private by default
+Before you start creating, you should see a route table which has been created already. It was created automatically when you created your VPC and it is called main Route table. it is private by default
 
 
 **Let's create Route table**
@@ -109,14 +112,16 @@ it is private by default
 
 - click on add, destination is 0.0.0.0/0 (don't use this if it is production) then target is IGW created. save it
 
+
 ....................................................................................
+
 
 **Associate the 2 public subnets we created with the Route table
 
 
-From the route table, go to subnet association and click on edit subnet association.
+- From the Route table, go to subnet association and click on edit subnet association.
 
-select both 2 public subnets and associate
+- select both 2 public subnets and associate
 
 
 ** Create 4 private subnets
@@ -128,12 +133,15 @@ select both 2 public subnets and associate
 - CIDR as 10.0.2.0/24
 
 - Create it
+
+
 ..................................................................................
 
 **create second private subnet**
 
 
 - same method but use 10.0.3.0/24 as CIDR and Private-App-subnet-AZ2 in Uus-east-1b
+
 
 ..................................................................................
 
@@ -148,9 +156,9 @@ select both 2 public subnets and associate
 **create 4th subnet - Data subnet**
 
 
-same method but use 10.0.5.0/24 as CIDR and Private-Data-subnet-AZ2 in us-east-1b
+- same method but use 10.0.5.0/24 as CIDR and Private-Data-subnet-AZ2 in us-east-1b
 
-Done!
+**Done!**
 
 
 **Difference between a Public subnet and Private subnet**
@@ -165,7 +173,7 @@ Done!
 
 ...................................................................................
 
-**Create a NAT Gateway In public subnet AZ1**
+### Create a NAT Gateway In public subnet AZ1
 
 
 - Go to NAT gateway section and click create 
@@ -280,7 +288,7 @@ Note: Create NAT gateways only in public subnets
 
 ...........................................................................
 
-# Lets create SSH SECURITY GROUP
+### Lets create SSH SECURITY GROUP
 
 - Go to SG and click Create SG
 - 
@@ -300,42 +308,54 @@ Note: Create NAT gateways only in public subnets
 
 ..........................................................................
 
-**Create Database Security Group**
+### Create Database Security Group**
 
-Name is Database-SG
-Same name for description 
-Select your VPC
-Click on add rule
+- Give name
 
-Type is Custom TCP, port is 3306, source should be bastion host SG you created previously. 
+- Same name for description 
 
-click create
+- Select your VPC
 
-So we have limited the traffic to our database using bastion host SG
+- Click on add rule
+
+- Type is Custom TCP, port is 3306, source should be bastion host SG you created previously. 
+
+- Click create
+
+
+
+By so doing you have limited the traffic to your database using bastion host SG
+
 
 ...........................................................................
 
+
 ** Create RDS Database in private subnet
 
-Go to RDS service 
-1st create subnet group. It will allow us specify which subnet we want to create the database in
+- Go to RDS service 
 
-Go to subnet group section and click create subnet group
+- 1st create subnet group. It will allow us specify which subnet we want to create the database in
 
+- Go to subnet group section and click create subnet group
 
-Give it name as database-subnet
-use same as decription
-select your VPC
+- Give it name as database-subnet
 
-Under add subnets, select AZ as us-east-1a and us-east-1b
-under subnets according to our reference architecture, we have our private data subnet created with CIDR 10.0.4.0/24 in us-east1A..select it
-And as well we have the second private data subnet using CIDR 10.0.5.0/24 in us-east-ib..select it
+- Use same as decription
 
-Then create subnet group
+- Select your VPC
+
+- Under add subnets, select AZ as us-east-1a and us-east-1b
+
+- Under subnets according to our reference architecture, we have our private data subnet created with CIDR 10.0.4.0/24 in us-east1A..select it
+and as well we have the second private data subnet using CIDR 10.0.5.0/24 in us-east-ib..select it
+
+- Then create subnet group
+
 
 ................................................................
 
-**Create database
+### Create Database
+
 
 - Go to databases, click create database
 
@@ -354,48 +374,45 @@ Then create subnet group
 - give name, username and password
 
 
+**PLEASE SAVE THIS PASSWORD SOMEWHERE!** ....continue with the steps
 
-**PLEASE SAVE THIS PASSWORD SOMEWHERE!**
+- Under instance config, use burstable classes
 
-- Under instance config
+- Toggle previous generation classes so you use db.t2.micro
 
-- use burstable classes
+- Leave storage as default
 
-- toggle previous generation classes so you use db.t2.micro
+- Under connectivity, leave the "Don’t connect to an EC2 compute resource" selected
 
-- leave storage as default
+- Select your VPC
 
-- under connectivity, leave the "Don’t connect to an EC2 compute resource" selected
+- Under subnet group, ensure the one you created is selected
 
-- select your VPC
+- Under public access, leave it as no
 
-- under subnet group, ensure the one you created is selected
-
-- under public access, leave it as no
-
-- choose exiting security group...select the Database SG you created 
+- Choose exiting security group...select the Database SG you created 
 
 - Under Availability zone, select us-east-1b
 
-- under database authentication, leave it as password authentication
+- Under database authentication, leave it as password authentication
 
-- leave monitoring as default
+- Leave monitoring as default
 
 - Under additional configuration, click the drop down arrow
 
-- under database option, give initial database name
+- Under database option, give initial database name
 
 
-NOTE DOWN YOUR INSTANCE IDENTITFIER NAME, DATABASE NAME, PASSWORD, USERNAME
+NOTE DOWN YOUR INSTANCE IDENTIFIER NAME, DATABASE NAME, PASSWORD, USERNAME
 
 You will need them later!
 
 
-Leave others as default and Create database
+- Leave others as default and Create database
 
 .....................................................................
 
-# Create key pair
+### Create key pair
 
 - Go to EC2 services and click on keypairs
 
@@ -411,14 +428,16 @@ Leave others as default and Create database
 Create and it will be downloaded to your PC
 
 
-**Next**.....................
+**Next Step**
 
-Open powershell in your PC
+
+- Open powershell in your PC
 
 Note the directory your powershell is opening from..we have to move our keypair to that location so that when we run our ssh command later, our keypair will be in the same location we will ssh from
 
 
-How to do it
+How to do it?
+
 
 Go to the download folder or locate you rkeypairs in your PC, cut it and paste it in the exact folder your powershell opens from
 
@@ -432,7 +451,7 @@ The one downloaded to your PC is private key
 
 .....................................................................................
 
-# Set up a bastion host we will use to SSH into the RDS instance in the private subnet
+### Set up a bastion host we will use to SSH into the RDS instance in the private subnet
 
 
 - Go to EC2 services, Click on launch instance
@@ -458,7 +477,8 @@ The one downloaded to your PC is private key
 
 ............................................................................
 
-# Downloading and Installing Flyway on Your Computer
+### Downloading and Installing Flyway on Your Computer
+
 
 Flyway is a database migration tool
 
@@ -477,9 +497,11 @@ Flyway is a database migration tool
 and it will start downlaoding
 
 
+
 - Once completed, go to your download folder and you will see it is in zip folder
 
 - just right click and click extract all to extract it
+
 
 **Next line is optional**
 
@@ -490,7 +512,7 @@ But you can choose to leave it in download folder
 
 .............................................................................................
 
-# Update the flyway configuration file
+### Update the flyway configuration file
 
 - In the flyway configuration file, you will enter the credentials of the database you want to connect to
 
@@ -524,18 +546,20 @@ flyway.defaultSchema=<schema name>
 - copy out your database name
 
 - Go back to vs code where you pasted the configuration file
+
 -  In the file line, add the name...example
 
 **flyway.url=jdbc:mysql://localhost:3306/myappDB**
 
 - Give the username of your database in the second line
+
 - Type the DB password you saved in 3rd line
 
 - Save it 
 
 ........................................................................................
 
-# Organise SQL Scripts in Flyway
+### Organise SQL Scripts in Flyway
 
 we must add our SQL script to the SQL directory within the flyway folder
 
@@ -567,21 +591,20 @@ V1__rentzone-db.sql
 
 ........................................................................................
  
-# Securely Run Flyway Migrate with an SSH Tunel
+### Securely Run Flyway Migrate with an SSH Tunel
 
-This is to Setup SSH tunel from your local computer to the bastion host
-
-once done, then you can use Flyway to migrate your data to RDS database
+This is to Setup SSH tunel from your local computer to the bastion host. Once done, then you can use Flyway to migrate your data to RDS database
 
 
 Copy this command below
 
-ssh -i <key_pier.pem> ec2-user@<public-ip> -L 3306:<rds-endpoint>:3306 -N
+
+$ ssh -i <key_pier.pem> ec2-user@<public-ip> -L 3306:<rds-endpoint>:3306 -N
 
   
 - I am using windows PC so this command works
 
-- I will replace this command with my key and ip address of the bastion host and RDS endpoint. You should do same
+- I will replace this command with my key and IP address of the bastion host and RDS endpoint. You should do same
 
 So with this command, you can set up the SSH tunnel
 
@@ -592,10 +615,9 @@ So with this command, you can set up the SSH tunnel
 - Go to Visual studio code where your flyway folder is, at the top click on terminal and open new terminal
 
 You will notice it opened into your flyway folder.
-
-  Run 
+Run the command below
   
-- **cd ..**
+$ cd ..
 
   
 - If you are in the user directory where you saved your keypair
@@ -634,7 +656,7 @@ Give it sometime and it will migrate your scripts succesafully
 CONGRATULATION!!
 
 
-# HOW TO CONFIRM THE TABLES OR DATA IN YOUR DATABASE
+### HOW TO CONFIRM THE TABLES OR DATA IN YOUR DATABASE
 
 
 You can use the MySQL command-line client or a GUI client like MySQL Workbench to connect to your RDS instance and run SQL queries to view the data in the tables. For example, you can run the SELECT * FROM <table_name>; command to view all the data in a specific table.
