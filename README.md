@@ -51,7 +51,11 @@ And then we will create internet gateway and route gateway to allow some resourc
 **Create internet gateway for the VPC**
 
 
-Go to internet gateway and create it. Only give name and Create.
+- Go to internet gateway section
+
+- Click on create Internet Gatway
+
+- Only give name and Create.
 
 .................................................................................
 
@@ -59,13 +63,16 @@ Go to internet gateway and create it. Only give name and Create.
 
 Note: One VPC can be attached to IGW at a time
 
-once the IGW is open, click on action and you see attach to a VPC, select your VPC and attach
+- Click on the Internet gateway just created to open
 
-Good!it will show attached
+- click on action and you will see attach to a VPC, select your VPC and attach
+
+- It will show attached
 
 ....................................................................................
 
 **Create 2 public subnet in 2 AZs**
+
 
 - From subnet section, click on create subenet
 
@@ -77,18 +84,16 @@ Good!it will show attached
 
 - Create subnet
 
-
-
-**Create another public subnet**
-
+**For the second subnet**
 
 - Use same method but select another AZ ..east-us-1a with CIDR as 10.0.1.0/24
 
 - Create
 
+
 ....................................................................................
 
-**Enable auto IP assigned settings for the public subnets**
+**Enable Auto IP assigned settings for the public subnets**
 
 
 You are enabling this so that anytime you launch ECS instance in the subnet, IP address will be assigned automatically.
@@ -136,9 +141,10 @@ Before you start creating, you should see a route table which has been created a
 - select both 2 public subnets and associate
 
 
-** Create 4 private subnets
+**Create 4 private subnets**
 
-- Click create subnet, select the VPC, name as Private-App-subnet-AZ1
+
+- Click create subnet, select the VPC, name as Private-app-subnet-AZ1
 
 - Use us-east-1a
 
@@ -255,25 +261,26 @@ Select Private-App-subnet-AZ1 and private-Data-subnet-AZ1 and associate
 
 ...............................................................................
 
-**Create another private route table**
+**Create another private Route table**
+
 
 - click on create RT
 
 - Give name as Private-RT-AZ2
-- Select VPC and create
 
+- Select VPC and create
 
 - Add a route to the Private-RT-AZ2
 
 - under the Private-RT-AZ2, click on route..edit route
 
-- click add route..select destination as 0.0.0.0/0 and under target, sleect NAT-GW-AZ2
+- click add route..select destination as 0.0.0.0/0 and under target, select the second NAT Gateway 
 
 - Save
 
 ........................................................................................
 
-**Associate the RT which is Private-RT-AZ2 with private-subnet-AZ2 & private-subnet-AZ2**
+**Associate the RT which is Private-RT-AZ2 with private-App-subnet-AZ2 & private-Data-subnet-AZ2**
 
 
 - click on subnet association
@@ -342,7 +349,7 @@ By so doing you have limited the traffic to your database using bastion host SG
 ...........................................................................
 
 
-**Create RDS Database in private subnet**
+### Create RDS Database in private subnet
 
 - Go to RDS service 
 
@@ -366,7 +373,7 @@ and as well we have the second private data subnet using CIDR 10.0.5.0/24 in us-
 
 ................................................................
 
-### Create Database
+#### Create Database
 
 
 - Go to databases, click create database
@@ -547,26 +554,26 @@ flyway.defaultSchema=<schema name>
 
 - Once open, select conf and and open flyway.conf file
 
-- in this file, it shows some flyway options and some other deafult config file
+- In this file, it shows some flyway options and some other deafult config file
 
-- delete all and replace with the flyway file copied from github 
+- Delete all and replace with the flyway file as seen above
 
 - Edit the file to connect to your RDS database
 
-- go your RDS, select your database instance and on the configuration section, click on configuration
+- Go your RDS, select your database instance and on the configuration section, click on configuration
 
-- copy out your database name
+- Copy out your database name
 
 - Go back to vs code where you pasted the configuration file
 
--  In the file line, add the name...example
--  
+- In the first line, add the name...example in the line below myappDB is my database name
+
 
 **flyway.url=jdbc:mysql://localhost:3306/myappDB**
 
 - Give the username of your database in the second line
 
-- Type the DB password you saved in 3rd line
+- Type in the DB password you saved earlier in 3rd line
 
 - Save it 
 
@@ -574,7 +581,9 @@ flyway.defaultSchema=<schema name>
 
 ### Organise SQL Scripts in Flyway
 
-we must add our SQL script to the SQL directory within the flyway folder
+
+We must add our SQL script to the SQL directory within the flyway folder
+
 
 The SQL script for the data we will migrate into the RDS database can be downloaded using the link below
 
