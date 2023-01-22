@@ -330,7 +330,7 @@ By so doing you have limited the traffic to your database using bastion host SG
 ...........................................................................
 
 
-** Create RDS Database in private subnet
+**Create RDS Database in private subnet**
 
 - Go to RDS service 
 
@@ -548,6 +548,7 @@ flyway.defaultSchema=<schema name>
 - Go back to vs code where you pasted the configuration file
 
 -  In the file line, add the name...example
+-  
 
 **flyway.url=jdbc:mysql://localhost:3306/myappDB**
 
@@ -648,12 +649,13 @@ But remember the SSH terminal tunnel will still be there in the first terminal o
 So in the new terminal, run the command below
 
 
-**$.\flyway migrate**
+**$ .\flyway migrate**
 
 
-Give it sometime and it will migrate your scripts succesafully
+Give it sometime and it will migrate your scripts successfully
 
-CONGRATULATION!!
+
+  **CONGRATULATION!!** 🤗
 
 
 ### HOW TO CONFIRM THE TABLES OR DATA IN YOUR DATABASE
