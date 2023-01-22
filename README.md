@@ -25,15 +25,18 @@ And then we will create internet gateway and route gateway to allow some resourc
 ### SOLUTIONS
 
 
-Create a VPC with 10.0.0.0/16b CIDR
+- Create a VPC with 10.0.0.0/16 CIDR
 
-give name leave others as default...create
+- Give name and leave others as default
+
+- Create
 
 ................................................................................
 
 **Enable DNS hosting in VPC**
 
-click on the VPC to open
+
+- click on the VPC to open
 
 - At the top click on action button
 
