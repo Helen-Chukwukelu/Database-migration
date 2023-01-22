@@ -616,6 +616,7 @@ So with this command, you can set up the SSH tunnel
 - Go to Visual studio code where your flyway folder is, at the top click on terminal and open new terminal
 
 You will notice it opened into your flyway folder.
+
 Run the command below
   
 $ cd ..
@@ -655,10 +656,17 @@ So in the new terminal, run the command below
 Give it sometime and it will migrate your scripts successfully
 
 
+
+![succeesful migration](https://user-images.githubusercontent.com/99098585/213942314-f2160641-dd57-410c-acc4-4233631be701.PNG)
+
+
+
   **CONGRATULATION!!** 🤗
 
 
+
 ### HOW TO CONFIRM THE TABLES OR DATA IN YOUR DATABASE
+
 
 
 You can use the MySQL command-line client or a GUI client like MySQL Workbench to connect to your RDS instance and run SQL queries to view the data in the tables. For example, you can run the SELECT * FROM <table_name>; command to view all the data in a specific table.
