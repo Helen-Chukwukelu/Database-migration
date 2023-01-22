@@ -33,8 +33,15 @@ give name leave others as default...create
 
 **Enable DNS hosting in VPC**
 
-click on the VPC to open, then at the top click on action, select EDIT VPC settings. Under DNS settings, enable DNS host name
-Save!
+click on the VPC to open
+
+- At the top click on action button
+
+- Select EDIT VPC settings
+
+- Under DNS settings, enable DNS host name
+
+- Save!
 
 .................................................................................
 
